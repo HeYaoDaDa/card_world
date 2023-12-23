@@ -7,15 +7,19 @@ pub struct ShowFpsPlugin;
 
 impl Plugin for ShowFpsPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, spawn_fps_text)
+        app.add_systems(Startup, show_fps_text)
             .add_systems(Update, update_fps_text);
     }
 }
 
-fn spawn_fps_text(mut commands: Commands) {
+fn show_fps_text(mut commands: Commands) {
     commands.spawn((
         Name::new("FpsText"),
-        TextBundle::default().with_background_color(Color::rgba(0.0, 0.5, 0.0, 0.2)),
+        TextBundle {
+            background_color: BackgroundColor::from(Color::rgba(0.0, 0.5, 0.0, 0.2)),
+            z_index: ZIndex::Global(1000),
+            ..default()
+        },
         FpsTextComp,
     ));
 }
