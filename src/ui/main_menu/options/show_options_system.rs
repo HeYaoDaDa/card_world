@@ -1,31 +1,45 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, window::PresentMode};
 
-use super::{MainMenuButtion, MainMenuComp};
+use super::{OptionsBackComp, OptionsComp, OptionsInput};
 
-pub fn show_main_menu_system(mut commands: Commands) {
+pub fn show_options_system(mut commands: Commands, window_query: Query<&Window>) {
     commands
         .spawn((
-            Name::new("MainMenuRoot"),
+            Name::new("OptionsRoot"),
             NodeBundle {
                 style: Style {
                     width: Val::Percent(100.),
                     height: Val::Percent(100.),
-                    flex_direction: FlexDirection::Column,
-                    align_items: AlignItems::Center,
-                    justify_content: JustifyContent::Center,
+                    display: Display::Grid,
+                    grid_template_columns: vec![GridTrack::percent(50.0), GridTrack::percent(50.0)],
                     ..default()
                 },
                 background_color: BackgroundColor::from(Color::GRAY),
                 ..default()
             },
-            MainMenuComp,
+            OptionsComp,
         ))
         .with_children(|parent| {
+            parent.spawn(TextBundle {
+                text: Text::from_section(
+                    "VSync:",
+                    TextStyle {
+                        font_size: 24.0,
+                        ..default()
+                    },
+                ),
+                background_color: BackgroundColor::from(Color::BLACK),
+                ..default()
+            });
+            let present_mode = window_query.single().present_mode;
             parent.spawn((
-                Name::new("OptionsButton"),
                 TextBundle {
                     text: Text::from_section(
-                        "Options",
+                        if matches!(present_mode, PresentMode::AutoNoVsync) {
+                            "Yes"
+                        } else {
+                            "No"
+                        },
                         TextStyle {
                             font_size: 24.0,
                             ..default()
@@ -34,14 +48,14 @@ pub fn show_main_menu_system(mut commands: Commands) {
                     background_color: BackgroundColor::from(Color::BLACK),
                     ..default()
                 },
-                MainMenuButtion::OptionsButtion,
+                OptionsInput::VSync,
                 Interaction::default(),
             ));
+            // back
             parent.spawn((
-                Name::new("ExitGameButton"),
                 TextBundle {
                     text: Text::from_section(
-                        "Exit",
+                        "Back",
                         TextStyle {
                             font_size: 24.0,
                             ..default()
@@ -50,7 +64,7 @@ pub fn show_main_menu_system(mut commands: Commands) {
                     background_color: BackgroundColor::from(Color::BLACK),
                     ..default()
                 },
-                MainMenuButtion::ExitGameButton,
+                OptionsBackComp,
                 Interaction::default(),
             ));
         });

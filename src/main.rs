@@ -13,6 +13,7 @@ pub enum AppState {
 pub enum MainMenuState {
     #[default]
     MainMenu,
+    Options,
 }
 
 fn main() {
@@ -20,7 +21,13 @@ fn main() {
         .add_state::<AppState>()
         .add_state::<MainMenuState>()
         .add_plugins((
-            DefaultPlugins,
+            DefaultPlugins.set(WindowPlugin {
+                primary_window: Some(Window {
+                    present_mode: bevy::window::PresentMode::AutoNoVsync,
+                    ..default()
+                }),
+                ..default()
+            }),
             WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Grave)),
             ui::UiPlugin,
         ))
