@@ -1,43 +1,26 @@
 use bevy::prelude::*;
+use bevy_inspector_egui::bevy_egui::*;
 
-#[derive(Component)]
-struct FpsTextComp;
+pub struct FpsPlugin;
 
-pub struct ShowFpsPlugin;
-
-impl Plugin for ShowFpsPlugin {
+impl Plugin for FpsPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, show_fps_text)
-            .add_systems(Update, update_fps_text);
+        app.add_systems(Update, show_fps_system);
     }
 }
 
-fn show_fps_text(mut commands: Commands) {
-    commands.spawn((
-        Name::new("FpsText"),
-        TextBundle {
-            background_color: BackgroundColor::from(Color::rgba(0.0, 0.5, 0.0, 0.2)),
-            z_index: ZIndex::Global(1000),
-            ..default()
-        },
-        FpsTextComp,
-    ));
-}
-
-fn update_fps_text(
-    mut commands: Commands,
-    time: Res<Time<Real>>,
-    text_query: Query<Entity, With<FpsTextComp>>,
-) {
-    let delta_sec = time.delta_seconds_f64();
-    let mut fps = 0.0;
-    if delta_sec != 0.0 {
-        fps = 1.0 / delta_sec;
-    }
-    commands
-        .entity(text_query.single())
-        .insert(Text::from_section(
-            format!("FPS: {:.0}", fps),
-            TextStyle::default(),
-        ));
+fn show_fps_system(mut ui: EguiContexts, time: Res<Time<Real>>) {
+    egui::Area::new("show_fps")
+        .constrain(true)
+        .show(ui.ctx_mut(), |ui| {
+            let delta_sec = time.delta_seconds_f64();
+            let mut fps = 0.0;
+            if delta_sec != 0.0 {
+                fps = 1.0 / delta_sec;
+            }
+            ui.horizontal(|ui| {
+                ui.label("FPS:");
+                ui.label(format!("{:.0}", fps));
+            });
+        });
 }

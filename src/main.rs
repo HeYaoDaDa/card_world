@@ -1,5 +1,4 @@
-use bevy::{input::common_conditions::input_toggle_active, prelude::*};
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use bevy::prelude::*;
 
 mod ui;
 
@@ -28,7 +27,6 @@ fn main() {
                 }),
                 ..default()
             }),
-            WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Grave)),
             ui::UiPlugin,
         ))
         .run();

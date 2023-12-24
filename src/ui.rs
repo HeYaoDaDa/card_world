@@ -1,4 +1,5 @@
-use bevy::prelude::*;
+use bevy::{input::common_conditions::input_toggle_active, prelude::*};
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 
 mod fps;
 mod main_menu;
@@ -6,8 +7,12 @@ pub struct UiPlugin;
 
 impl Plugin for UiPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins((fps::ShowFpsPlugin, main_menu::MainMenuPlugin))
-            .add_systems(Startup, spawn_camera);
+        app.add_plugins((
+            WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Grave)),
+            fps::FpsPlugin,
+            main_menu::MainMenuPlugin,
+        ))
+        .add_systems(Startup, spawn_camera);
     }
 }
 
