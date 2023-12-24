@@ -11,6 +11,7 @@ pub enum AppState {
 #[derive(States, Debug, Clone, Eq, PartialEq, Hash, Default)]
 pub enum MainMenuState {
     #[default]
+    Loading,
     MainMenu,
     Options,
 }

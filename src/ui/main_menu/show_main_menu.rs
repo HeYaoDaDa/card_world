@@ -1,3 +1,4 @@
+use crate::ui::i18n::I18n;
 use crate::MainMenuState;
 use bevy::app::AppExit;
 use bevy::prelude::*;
@@ -6,6 +7,7 @@ use bevy_inspector_egui::bevy_egui::*;
 
 pub fn show_main_menu_system(
     mut ui: EguiContexts,
+    i18n: Res<I18n>,
     mut exit: EventWriter<AppExit>,
     mut next_menu_state: ResMut<NextState<MainMenuState>>,
 ) {
@@ -16,7 +18,7 @@ pub fn show_main_menu_system(
             ui.set_min_size(egui::Vec2::new(0.0, 100.0));
 
             ui.label(
-                RichText::new("Card world")
+                RichText::new(i18n.content("card-world"))
                     .heading()
                     .color(Color32::WHITE)
                     .size(50.0),
@@ -29,7 +31,9 @@ pub fn show_main_menu_system(
             ui.vertical_centered_justified(|ui| {
                 if ui
                     .add(egui::Button::new(
-                        RichText::new("Start Game").color(Color32::WHITE).size(30.0),
+                        RichText::new(i18n.content("start-game"))
+                            .color(Color32::WHITE)
+                            .size(30.0),
                     ))
                     .clicked()
                 {
@@ -40,7 +44,9 @@ pub fn show_main_menu_system(
 
                 if ui
                     .add(egui::Button::new(
-                        RichText::new("Options").color(Color32::WHITE).size(30.0),
+                        RichText::new(i18n.content("options"))
+                            .color(Color32::WHITE)
+                            .size(30.0),
                     ))
                     .clicked()
                 {
@@ -51,7 +57,9 @@ pub fn show_main_menu_system(
 
                 if ui
                     .add(egui::Button::new(
-                        RichText::new("Exit game").color(Color32::WHITE).size(30.0),
+                        RichText::new(i18n.content("exit-game"))
+                            .color(Color32::WHITE)
+                            .size(30.0),
                     ))
                     .clicked()
                 {
