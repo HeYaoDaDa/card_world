@@ -1,6 +1,6 @@
 (
     locale: "zh-TW",
     resources: [
-        "fee.ftl",
+        "foo.ftl",
     ]
 )
