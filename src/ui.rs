@@ -2,9 +2,12 @@ use bevy::{input::common_conditions::input_toggle_active, prelude::*};
 
 use bevy_inspector_egui::{bevy_egui::EguiContext, egui, quick::WorldInspectorPlugin};
 
+use self::options::load_ui_options;
+
 mod fps;
 mod i18n;
 mod main_menu;
+pub mod options;
 
 pub struct UiPlugin;
 
@@ -16,7 +19,7 @@ impl Plugin for UiPlugin {
             main_menu::MainMenuPlugin,
             i18n::I18nPlugin,
         ))
-        .add_systems(Startup, (spawn_camera, setup_font));
+        .add_systems(Startup, (spawn_camera, setup_font,load_ui_options));
     }
 }
 

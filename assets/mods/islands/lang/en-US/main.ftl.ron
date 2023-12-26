@@ -1,0 +1,6 @@
+(
+    locale: "en-US",
+    resources: [
+        "foo.ftl",
+    ]
+)

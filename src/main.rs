@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 
+mod game;
 mod ui;
 
 #[derive(States, Debug, Clone, Eq, PartialEq, Hash, Default)]
@@ -14,6 +15,7 @@ pub enum MainMenuState {
     Loading,
     MainMenu,
     Options,
+    Exit,
 }
 
 fn main() {
@@ -29,6 +31,7 @@ fn main() {
                 ..default()
             }),
             ui::UiPlugin,
+            game::GamePlugin,
         ))
         .run();
 }

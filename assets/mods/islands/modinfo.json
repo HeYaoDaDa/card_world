@@ -1,0 +1,14 @@
+{
+    "id": "islands",
+    "name": "isls-islands",
+    "authors": [
+        "HeYaoDaDa"
+    ],
+    "maintainers": [
+        "HeYaoDaDa"
+    ],
+    "description": "isls-mod-description",
+    "version": "0.1.0",
+    "dependencies": [],
+    "obsolete": false
+}

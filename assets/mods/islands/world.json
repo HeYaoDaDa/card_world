@@ -1,0 +1,25 @@
+[
+    {
+        "type": "world_map",
+        "id": "islands",
+        "name": "islands",
+        "description": "islands",
+        "width": 100,
+        "height": 100,
+        "generator": {
+            "type": "perlin_noise",
+            "scale": 10,
+            "max": 3,
+            "min": -3,
+            "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+            ]
+        }
+    }
+]

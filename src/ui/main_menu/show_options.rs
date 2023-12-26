@@ -1,5 +1,6 @@
 use std::collections::BTreeMap;
 
+use crate::game::options::{Options, OptionsChangeEvent};
 use crate::ui::i18n::I18n;
 use crate::MainMenuState;
 use bevy::prelude::*;
@@ -13,9 +14,10 @@ pub fn show_options_system(
     mut next_menu_state: ResMut<NextState<MainMenuState>>,
     mut window_query: Query<&mut Window>,
     mut cur_locale: ResMut<Locale>,
+    mut options: ResMut<Options>,
+    mut options_change_event: EventWriter<OptionsChangeEvent>,
 ) {
     let mut window = window_query.single_mut();
-    let mut vsync = matches!(window.present_mode, PresentMode::AutoVsync);
 
     let language_map: BTreeMap<_, _> = vec![
         ("en-US".to_string(), "English".to_string()),
@@ -29,15 +31,20 @@ pub fn show_options_system(
         .movable(false)
         .anchor(egui::Align2::CENTER_CENTER, egui::Vec2::default())
         .show(ui.ctx_mut(), |ui| {
-            if ui.checkbox(&mut vsync, i18n.content("v-sync")).clicked() {
-                window.present_mode = if vsync {
+            if ui
+                .checkbox(&mut options.v_sync, i18n.content("v-sync"))
+                .clicked()
+            {
+                window.present_mode = if options.v_sync {
                     PresentMode::AutoVsync
                 } else {
                     PresentMode::AutoNoVsync
                 };
+                options.v_sync = matches!(window.present_mode, PresentMode::AutoVsync);
+                options_change_event.send_default();
             }
             egui::ComboBox::from_label(i18n.content("language"))
-                .selected_text(language_map.get(&cur_locale.requested.to_string()).unwrap())
+                .selected_text(language_map.get(&options.language).unwrap())
                 .show_ui(ui, |ui| {
                     for (code, language) in language_map.iter() {
                         if ui
@@ -49,6 +56,8 @@ pub fn show_options_system(
                             .changed()
                         {
                             next_menu_state.set(MainMenuState::Loading);
+                            options.language = cur_locale.requested.to_string();
+                            options_change_event.send_default();
                         }
                     }
                 });
