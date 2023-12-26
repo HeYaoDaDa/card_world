@@ -14,6 +14,7 @@ pub enum MainMenuState {
     #[default]
     Loading,
     MainMenu,
+    NewGame,
     Options,
     Exit,
 }

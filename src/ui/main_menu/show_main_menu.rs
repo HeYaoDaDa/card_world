@@ -37,7 +37,7 @@ pub fn show_main_menu_system(
                     ))
                     .clicked()
                 {
-                    // next_menu_state.set(MainMenuState::ChooseStage);
+                    next_menu_state.set(MainMenuState::NewGame);
                 };
 
                 ui.add_space(50.0);
