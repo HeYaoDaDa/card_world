@@ -1,7 +1,13 @@
 {
     "id": "islands",
-    "name": "isls-islands",
-    "description": "isls-mod-description",
+    "name": {
+        "en-US": "Islands",
+        "zh-CN": "群岛"
+    },
+    "description": {
+        "en-US": "Surviving in the wilderness in a randomly generated archipelago map",
+        "zh-CN": "在随机群岛地图中荒野求生"
+    },
     "authors": [
         "HeYaoDaDa"
     ],
