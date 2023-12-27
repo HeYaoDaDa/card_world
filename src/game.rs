@@ -4,6 +4,7 @@ use self::options::{load_options, save_changed_options, Options, OptionsChangeEv
 
 pub mod options;
 pub mod world;
+pub mod modinfo;
 
 pub struct GamePlugin;
 
