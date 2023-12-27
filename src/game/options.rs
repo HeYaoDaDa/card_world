@@ -10,20 +10,22 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Resource)]
 pub struct Options {
-    pub v_sync: bool,
     pub language: String,
+    pub v_sync: bool,
+    pub show_fps: bool,
 }
 
 impl Default for Options {
     fn default() -> Self {
         Self {
-            v_sync: false,
             language: "en-US".to_string(),
+            v_sync: false,
+            show_fps: false,
         }
     }
 }
 
-#[derive(Event,Default)]
+#[derive(Event, Default)]
 pub struct OptionsChangeEvent;
 
 const OPTIONS_PATH: &str = "assets/data/options.json";

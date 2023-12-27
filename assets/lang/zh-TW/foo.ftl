@@ -9,5 +9,6 @@ start = 开始
 
 v-sync = 垂直同步
 language = 语言
+show-fps = 显示FPS
 
 back = 返回

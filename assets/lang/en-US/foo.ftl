@@ -9,5 +9,6 @@ start = Start
 
 v-sync = VSync
 language = language
+show-fps = Show FPS
 
 back = Back

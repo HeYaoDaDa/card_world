@@ -31,18 +31,6 @@ pub fn show_options_system(
         .movable(false)
         .anchor(egui::Align2::CENTER_CENTER, egui::Vec2::default())
         .show(ui.ctx_mut(), |ui| {
-            if ui
-                .checkbox(&mut options.v_sync, i18n.content("v-sync"))
-                .clicked()
-            {
-                window.present_mode = if options.v_sync {
-                    PresentMode::AutoVsync
-                } else {
-                    PresentMode::AutoNoVsync
-                };
-                options.v_sync = matches!(window.present_mode, PresentMode::AutoVsync);
-                options_change_event.send_default();
-            }
             egui::ComboBox::from_label(i18n.content("language"))
                 .selected_text(language_map.get(&options.language).unwrap())
                 .show_ui(ui, |ui| {
@@ -61,6 +49,27 @@ pub fn show_options_system(
                         }
                     }
                 });
+            if ui
+                .checkbox(&mut options.v_sync, i18n.content("v-sync"))
+                .clicked()
+            {
+                window.present_mode = if options.v_sync {
+                    PresentMode::AutoVsync
+                } else {
+                    PresentMode::AutoNoVsync
+                };
+                options.v_sync = matches!(window.present_mode, PresentMode::AutoVsync);
+                options_change_event.send_default();
+            }
+            let old_show_fps = options.show_fps;
+            if ui
+                .checkbox(&mut options.show_fps, i18n.content("show-fps"))
+                .clicked()
+            {
+                options.show_fps = !old_show_fps;
+                info!("current show_fps is {:?}", options.show_fps);
+                options_change_event.send_default();
+            }
             if ui.button(i18n.content("back")).clicked() {
                 next_menu_state.set(MainMenuState::MainMenu);
             }
