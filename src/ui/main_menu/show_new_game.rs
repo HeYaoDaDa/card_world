@@ -6,6 +6,7 @@ use serde::Deserialize;
 use std::{
     fs::{self, File},
     io::Read,
+    path::PathBuf,
 };
 
 pub fn show_new_game_system(
@@ -19,7 +20,7 @@ pub fn show_new_game_system(
         .show(ui.ctx_mut(), |ui| {
             if ui.button(i18n.content("mods")).clicked() {
                 for modinfo in get_all_modinfo_json() {
-                    info!(modinfo.id);
+                    info!("{}:{}", modinfo.id, modinfo.path);
                 }
             };
             if ui.button(i18n.content("start")).clicked() {};
@@ -29,7 +30,7 @@ pub fn show_new_game_system(
         });
 }
 
-#[derive(Deserialize)]
+#[derive(Default, Deserialize)]
 pub struct Modinfo {
     pub id: String,
     pub name: String,
@@ -39,32 +40,38 @@ pub struct Modinfo {
     pub version: String,
     pub dependencies: Vec<String>,
     pub obsolete: bool,
+    #[serde(skip)]
+    pub path: String,
 }
 
 pub fn get_all_modinfo_json() -> Vec<Modinfo> {
     let paths = get_all_modinfo_path_by_path("assets/mods");
     let mut modinfos = Vec::new();
     for path in paths {
-        let mut modinfo_file = File::open(&path).expect(&format!("Open {path} fail"));
+        let mut modinfo_file =
+            File::open(&path).expect(&format!("Open {} fail", path.to_string_lossy()));
         let mut modinfo_json = String::new();
         modinfo_file
             .read_to_string(&mut modinfo_json)
-            .expect(&format!("Read {path} fail"));
-        modinfos.push(
-            serde_json::from_str(&modinfo_json).expect(&format!("JSONify {path} to Modinfo fail")),
-        );
+            .expect(&format!("Read {} fail", path.to_string_lossy()));
+        let mut modinfo: Modinfo = serde_json::from_str(&modinfo_json).expect(&format!(
+            "JSONify {} to Modinfo fail",
+            path.to_string_lossy()
+        ));
+        modinfo.path = path.parent().unwrap_or(&path).to_string_lossy().into();
+        modinfos.push(modinfo);
     }
     modinfos
 }
 
-fn get_all_modinfo_path_by_path(path: &str) -> Vec<String> {
+fn get_all_modinfo_path_by_path(path: &str) -> Vec<PathBuf> {
     if let Ok(entries) = fs::read_dir(path) {
         let mut dirs = Vec::new();
         for entry in entries {
             if let Ok(entry) = entry {
                 if let Ok(metadata) = entry.metadata() {
                     if metadata.is_file() && entry.file_name() == "modinfo.json" {
-                        return vec![entry.path().to_str().unwrap().to_string()];
+                        return vec![entry.path()];
                     } else if metadata.is_dir() {
                         dirs.push(entry);
                     }
