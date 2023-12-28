@@ -9,20 +9,9 @@ pub enum AppState {
     MainMenu,
 }
 
-#[derive(States, Debug, Clone, Eq, PartialEq, Hash, Default)]
-pub enum MainMenuState {
-    #[default]
-    Loading,
-    MainMenu,
-    NewGame,
-    Options,
-    Exit,
-}
-
 fn main() {
     App::new()
         .add_state::<AppState>()
-        .add_state::<MainMenuState>()
         .add_plugins((
             DefaultPlugins.set(WindowPlugin {
                 primary_window: Some(Window {

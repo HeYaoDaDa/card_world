@@ -3,15 +3,7 @@ use bevy_inspector_egui::bevy_egui::*;
 
 use crate::game::options::Options;
 
-pub struct FpsPlugin;
-
-impl Plugin for FpsPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(Update, show_fps_system);
-    }
-}
-
-fn show_fps_system(mut ui: EguiContexts, time: Res<Time<Real>>, options: Res<Options>) {
+pub fn show_fps_system(mut ui: EguiContexts, time: Res<Time<Real>>, options: Res<Options>) {
     if options.show_fps {
         egui::Area::new("show_fps")
             .constrain(true)

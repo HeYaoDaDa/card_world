@@ -22,26 +22,24 @@ pub struct Modinfo {
 }
 
 impl Modinfo {
-    pub fn get_name(&self, locale: &str) -> &String {
-        if self.name.is_empty() {
-            warn!("mod {} miss name", self.id);
-            &self.id
-        } else {
-            self.name
-                .get(locale)
-                .unwrap_or_else(|| self.name.get("en-US").unwrap())
+    pub fn get_name(&self, locales: &Vec<String>) -> &String {
+        for locale in locales {
+            if let Some(name) = self.name.get(locale) {
+                return name;
+            }
         }
+        warn!("mod {} miss name", self.id);
+        &self.id
     }
 
-    pub fn get_description(&self, locale: &str) -> &String {
-        if self.description.is_empty() {
-            warn!("mod {} miss description", self.id);
-            &self.id
-        } else {
-            self.description
-                .get(locale)
-                .unwrap_or_else(|| self.description.get("en-US").unwrap())
+    pub fn get_description(&self, locales: &Vec<String>) -> &String {
+        for locale in locales {
+            if let Some(description) = self.description.get(locale) {
+                return description;
+            }
         }
+        warn!("mod {} miss description", self.id);
+        &self.id
     }
 }
 

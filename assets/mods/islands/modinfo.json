@@ -1,12 +1,12 @@
 {
     "id": "islands",
     "name": {
-        "en-US": "Islands",
-        "zh-CN": "群岛"
+        "en": "Islands",
+        "zh-Hans": "群岛"
     },
     "description": {
-        "en-US": "Surviving in the wilderness in a randomly generated archipelago map",
-        "zh-CN": "在随机群岛地图中荒野求生"
+        "en": "Surviving in the wilderness in a randomly generated archipelago map",
+        "zh-Hans": "在随机群岛地图中荒野求生"
     },
     "authors": [
         "HeYaoDaDa"

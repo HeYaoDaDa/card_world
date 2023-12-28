@@ -18,7 +18,7 @@ pub struct Options {
 impl Default for Options {
     fn default() -> Self {
         Self {
-            language: "en-US".to_string(),
+            language: "en".to_string(),
             v_sync: false,
             show_fps: false,
         }
