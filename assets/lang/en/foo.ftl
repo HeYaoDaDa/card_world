@@ -16,3 +16,7 @@ start = Start
 language = language
 v-sync = VSync
 show-fps = Show FPS
+
+## Common
+
+back = Back
