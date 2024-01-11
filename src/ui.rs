@@ -8,7 +8,9 @@ mod i18n;
 mod load_i18n;
 mod show_fps;
 mod show_main_menu;
+mod show_new_game;
 mod show_options;
+mod show_saves;
 mod update_options;
 
 pub struct UiPlugin;
@@ -31,6 +33,8 @@ impl Plugin for UiPlugin {
                     load_i18n::load_i18n_system.run_if(in_state(MainMenuState::Loading)),
                     show_main_menu::show_main_menu_system.run_if(in_state(MainMenuState::MainMenu)),
                     show_options::show_options_system.run_if(in_state(MainMenuState::Options)),
+                    show_saves::show_saves_system.run_if(in_state(MainMenuState::Saves)),
+                    show_new_game::show_new_game_system.run_if(in_state(MainMenuState::NewGame)),
                 ),
             );
     }
@@ -44,7 +48,6 @@ pub enum MainMenuState {
     Saves,
     Options,
     NewGame,
-    NewGameMods,
 }
 
 fn spawn_camera(mut commands: Commands) {
