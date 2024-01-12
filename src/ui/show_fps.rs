@@ -6,6 +6,7 @@ use crate::game::options::Options;
 pub fn show_fps_system(mut ui: EguiContexts, time: Res<Time<Real>>, options: Res<Options>) {
     if options.show_fps {
         egui::Area::new("show_fps")
+            .interactable(false)
             .constrain(true)
             .show(ui.ctx_mut(), |ui| {
                 let delta_sec = time.delta_seconds_f64();
