@@ -34,6 +34,10 @@ pub fn show_main_menu_system(
                 next_menu_state.set(MainMenuState::Options);
             };
 
+            if ui.button(RichText::new("Tests").size(30.0)).clicked() {
+                next_menu_state.set(MainMenuState::Tests);
+            };
+
             if ui
                 .button(RichText::new(i18n.content("exit-game")).size(30.0))
                 .clicked()

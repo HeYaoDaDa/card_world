@@ -11,6 +11,7 @@ mod show_main_menu;
 mod show_new_game;
 mod show_options;
 mod show_saves;
+mod show_tests;
 mod update_options;
 
 pub struct UiPlugin;
@@ -23,6 +24,7 @@ impl Plugin for UiPlugin {
             .add_plugins((
                 WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Grave)),
                 FluentPlugin,
+                show_tests::ShowTestPlugin,
             ))
             .add_systems(Startup, (spawn_camera, setup_font))
             .add_systems(
@@ -47,6 +49,7 @@ pub enum MainMenuState {
     MainMenu,
     Saves,
     Options,
+    Tests,
     NewGame,
 }
 

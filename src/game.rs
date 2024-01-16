@@ -2,9 +2,10 @@ use bevy::prelude::*;
 
 use self::options::{load_options, save_changed_options, Options, OptionsChangeEvent};
 
+pub mod generate_world;
+pub mod modinfo;
 pub mod options;
 pub mod world;
-pub mod modinfo;
 
 pub struct GamePlugin;
 
