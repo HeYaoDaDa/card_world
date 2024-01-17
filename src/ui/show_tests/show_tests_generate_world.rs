@@ -3,7 +3,10 @@ use crate::{
     ui::i18n::I18n,
 };
 use bevy::prelude::*;
-use bevy_inspector_egui::bevy_egui::*;
+use bevy_inspector_egui::{
+    bevy_egui::*,
+    egui::{Color32, RichText},
+};
 
 use super::TestsState;
 
@@ -11,6 +14,7 @@ pub fn show_tests_generate_world_system(
     mut ctx: EguiContexts,
     i18n: Res<I18n>,
     mut next_menu_state: ResMut<NextState<TestsState>>,
+    mut map: Local<Vec<Vec<i8>>>,
 ) {
     egui::CentralPanel::default().show(ctx.ctx_mut(), |ui| {
         ui.vertical_centered_justified(|ui| {
@@ -22,21 +26,35 @@ pub fn show_tests_generate_world_system(
                     scale: 10.,
                     max: 3,
                     min: -3,
-                    weights: vec![1, 1, 1, 1, 1, 1, 1],
+                    weights: vec![2, 2, 2, 1, 2, 2, 2],
                 };
-                let map =
-                    generate_world::generate_elevation_map_with_perlin_noise(None, 100, 50, params)
+                *map =
+                    generate_world::generate_elevation_map_with_perlin_noise(None, 50, 50, params)
                         .unwrap();
-                for column in &map {
-                    for item in column.iter().rev() {
-                        if *item >= 0 {
-                            print!("+{}", item);
-                        } else {
-                            print!("{}", item);
-                        }
+            }
+            if !map.is_empty() {
+                ui.horizontal(|ui| {
+                    for column in &map {
+                        ui.vertical(|ui| {
+                            for item in column.iter().rev() {
+                                if *item >= 0 {
+                                    ui.label(
+                                        RichText::new(item.to_string()).color(Color32::from_rgb(
+                                            0,
+                                            item.abs() as u8 * 25,
+                                            0,
+                                        )),
+                                    );
+                                } else {
+                                    ui.label(
+                                        RichText::new(item.abs().to_string())
+                                            .color(Color32::from_rgb(0, 0, item.abs() as u8 * 25)),
+                                    );
+                                }
+                            }
+                        });
                     }
-                    println!();
-                }
+                });
             }
         });
     });
