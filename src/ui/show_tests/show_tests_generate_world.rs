@@ -26,10 +26,10 @@ pub fn show_tests_generate_world_system(
                     scale: 10.,
                     max: 3,
                     min: -3,
-                    weights: vec![2, 2, 2, 1, 2, 2, 2],
+                    weights: vec![1, 2, 2, 2, 2, 2, 1],
                 };
                 *map =
-                    generate_world::generate_elevation_map_with_perlin_noise(None, 50, 50, params)
+                    generate_world::generate_elevation_map_with_perlin_noise(None, 60, 50, params)
                         .unwrap();
             }
             if !map.is_empty() {

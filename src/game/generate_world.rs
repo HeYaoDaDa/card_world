@@ -12,11 +12,11 @@ pub struct PerlinNoiseParams {
 fn generate_perlin_noise_elevation_ranges(min: i8, weights: &Vec<u8>) -> Vec<(f64, f64, i8)> {
     let mut ranges = Vec::new();
     let weights_sum: u64 = weights.iter().map(|&x| x as u64).sum();
-    let mut end: f64 = 0.;
+    let mut end: f64 = -1.;
     for i in 0..weights.len() {
         let start = end;
         end = if i < weights.len() {
-            end + *weights.get(i).unwrap() as f64 / weights_sum as f64
+            end + (*weights.get(i).unwrap() as f64 / weights_sum as f64) * 2.
         } else {
             2.
         };
@@ -53,14 +53,14 @@ pub fn generate_elevation_map_with_perlin_noise(
         rand::thread_rng().gen::<u32>()
     });
 
+    let ranges = generate_perlin_noise_elevation_ranges(params.min, &params.weights);
+    println!("ranges:{:#?}", ranges);
     for x in 0..width {
         for y in 0..height {
             let nx = x as f64 / params.scale;
             let ny = y as f64 / params.scale;
-
             let value = perlin.get([nx, ny]);
-            let ranges = generate_perlin_noise_elevation_ranges(params.min, &params.weights);
-            for range in ranges {
+            for range in &ranges {
                 if range.0 <= value && value < range.1 {
                     map.get_mut(x as usize)
                         .unwrap()
