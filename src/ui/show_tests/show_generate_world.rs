@@ -33,7 +33,7 @@ impl Default for PerlinNoiseParamsUiState {
     }
 }
 
-pub fn show_tests_generate_world_system(
+pub fn show_generate_world_system(
     mut ctx: EguiContexts,
     i18n: Res<I18n>,
     mut next_menu_state: ResMut<NextState<TestsState>>,

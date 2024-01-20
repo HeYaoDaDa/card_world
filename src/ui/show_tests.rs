@@ -4,7 +4,8 @@ use bevy_inspector_egui::bevy_egui::*;
 
 use super::MainMenuState;
 
-mod show_tests_generate_world;
+mod show_generate_world;
+mod show_mod_list;
 
 pub struct ShowTestPlugin;
 
@@ -15,7 +16,8 @@ impl Plugin for ShowTestPlugin {
             (
                 show_tests_system
                     .run_if(in_state(MainMenuState::Tests).and_then(in_state(TestsState::Tests))),
-                show_tests_generate_world::show_tests_generate_world_system
+                show_mod_list::show_mod_list_system.run_if(in_state(TestsState::ModList)),
+                show_generate_world::show_generate_world_system
                     .run_if(in_state(TestsState::GenerateWorld)),
             ),
         );
@@ -26,6 +28,7 @@ impl Plugin for ShowTestPlugin {
 pub enum TestsState {
     #[default]
     Tests,
+    ModList,
     GenerateWorld,
 }
 
@@ -39,6 +42,9 @@ fn show_tests_system(
         ui.vertical_centered_justified(|ui| {
             if ui.button(i18n.content("back")).clicked() {
                 next_menu_state.set(MainMenuState::MainMenu);
+            }
+            if ui.button("Mod List").clicked() {
+                next_tests_state.set(TestsState::ModList);
             }
             if ui.button("Generate World").clicked() {
                 next_tests_state.set(TestsState::GenerateWorld);
