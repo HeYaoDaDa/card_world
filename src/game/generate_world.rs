@@ -36,7 +36,6 @@ pub fn generate_elevation_map_with_perlin_noise(
     let noise = generate_perlin_noise(seed, width as usize, height as usize, scale);
 
     let ranges = generate_perlin_noise_elevation_ranges(min, &weights);
-    println!("ranges:{:#?}", ranges);
     for x in 0..width {
         for y in 0..height {
             let value = noise[x as usize][y as usize];
