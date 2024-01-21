@@ -15,14 +15,9 @@ pub fn show_new_game_system(
                 next_menu_state.set(MainMenuState::Saves);
             }
             ui.collapsing(i18n.content("mods"), |ui| {
-                let locales: Vec<String> = i18n
-                    .localization
-                    .locales()
-                    .map(|it| it.to_string())
-                    .collect();
                 for modinfo in modinfo::get_all_modinfo_json() {
-                    ui.label(modinfo.get_name(&locales))
-                        .on_hover_text(modinfo.get_description(&locales));
+                    ui.label(i18n.content(&modinfo.name))
+                        .on_hover_text(i18n.content(&modinfo.description));
                 }
             });
             if ui.button(i18n.content("start")).clicked() {}

@@ -1,9 +1,11 @@
 ## Main menu
 
-card-world = Card world
+-card-world = Card world
 start-new-game = Start New Game
 options = Options
 exit-game = Exit Game
+
+main-menu-title = {-card-world}
 
 ## New game Window
 

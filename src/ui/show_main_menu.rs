@@ -14,7 +14,7 @@ pub fn show_main_menu_system(
 ) {
     CentralPanel::default().show(ui.ctx_mut(), |ui| {
         ui.vertical_centered_justified(|ui| {
-            ui.label(RichText::new(i18n.content("card-world")).size(50.0));
+            ui.label(RichText::new(i18n.content("main-menu-title")).size(50.0));
         });
 
         ui.vertical_centered_justified(|ui| {

@@ -1,9 +1,11 @@
 ## 主页面
 
-card-world = 卡牌世界
+-card-world = 卡牌世界
 start-new-game = 开始新游戏
 options = 选项
 exit-game = 退出游戏
+
+main-menu-title = {-card-world}
 
 ## 新游戏Window
 
@@ -16,7 +18,3 @@ start = 开始
 language = 语言
 v-sync = 垂直同步
 show-fps = 显示FPS
-
-## 通用
-
-back = 返回

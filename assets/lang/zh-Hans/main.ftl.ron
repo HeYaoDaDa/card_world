@@ -1,6 +1,0 @@
-(
-    locale: "zh-Hans",
-    resources: [
-        "foo.ftl",
-    ]
-)

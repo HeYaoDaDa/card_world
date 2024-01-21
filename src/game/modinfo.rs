@@ -1,7 +1,5 @@
-use bevy::prelude::*;
 use serde::Deserialize;
 use std::{
-    collections::HashMap,
     fs::{self, File},
     io::Read,
     path::PathBuf,
@@ -10,8 +8,8 @@ use std::{
 #[derive(Default, Deserialize)]
 pub struct Modinfo {
     pub id: String,
-    pub name: HashMap<String, String>,
-    pub description: HashMap<String, String>,
+    pub name: String,
+    pub description: String,
     pub authors: Vec<String>,
     pub maintainers: Vec<String>,
     pub version: String,
@@ -19,28 +17,6 @@ pub struct Modinfo {
     pub obsolete: bool,
     #[serde(skip)]
     pub path: String,
-}
-
-impl Modinfo {
-    pub fn get_name(&self, locales: &Vec<String>) -> &String {
-        for locale in locales {
-            if let Some(name) = self.name.get(locale) {
-                return name;
-            }
-        }
-        warn!("mod {} miss name", self.id);
-        &self.id
-    }
-
-    pub fn get_description(&self, locales: &Vec<String>) -> &String {
-        for locale in locales {
-            if let Some(description) = self.description.get(locale) {
-                return description;
-            }
-        }
-        warn!("mod {} miss description", self.id);
-        &self.id
-    }
 }
 
 pub fn get_all_modinfo_json() -> Vec<Modinfo> {

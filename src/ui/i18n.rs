@@ -1,19 +1,23 @@
-use bevy::{asset::LoadedFolder, prelude::*};
-use bevy_fluent::Localization;
-use fluent_content::Content;
+use super::MainMenuState;
+pub use asset::FluentResourceAsset;
+use asset::FluentResourceAssetLoader;
+use bevy::prelude::*;
+pub use resource::I18n;
 
-#[derive(Default, Resource)]
+mod asset;
+mod load;
+mod resource;
 
-pub struct I18n {
-    pub localization: Localization,
-    pub handle: Handle<LoadedFolder>,
-}
+pub struct I18nPlugin;
 
-impl I18n {
-    pub fn content(&self, request: &str) -> String {
-        self.localization.content(request).unwrap_or_else(|| {
-            warn!("i18n id:{request} is miss");
-            request.to_string()
-        })
+impl Plugin for I18nPlugin {
+    fn build(&self, app: &mut App) {
+        app.init_resource::<I18n>()
+            .init_asset::<FluentResourceAsset>()
+            .init_asset_loader::<FluentResourceAssetLoader>()
+            .add_systems(
+                Update,
+                load::load_i18n_system.run_if(in_state(MainMenuState::Loading)),
+            );
     }
 }
