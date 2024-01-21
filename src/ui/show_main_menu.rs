@@ -14,32 +14,32 @@ pub fn show_main_menu_system(
 ) {
     CentralPanel::default().show(ui.ctx_mut(), |ui| {
         ui.vertical_centered_justified(|ui| {
-            ui.label(RichText::new(i18n.content("main-menu-title")).size(50.0));
+            ui.label(RichText::new(i18n.content("core_main-menu-title")).size(50.0));
         });
 
         ui.vertical_centered_justified(|ui| {
             ui.set_width(400.0);
 
             if ui
-                .button(RichText::new(i18n.content("start-new-game")).size(30.0))
+                .button(RichText::new(i18n.content("core_main-menu-btn-start")).size(30.0))
                 .clicked()
             {
                 next_menu_state.set(MainMenuState::Saves);
             };
 
             if ui
-                .button(RichText::new(i18n.content("options")).size(30.0))
+                .button(RichText::new(i18n.content("core_main-menu-btn-options")).size(30.0))
                 .clicked()
             {
                 next_menu_state.set(MainMenuState::Options);
             };
 
-            if ui.button(RichText::new("Tests").size(30.0)).clicked() {
+            if ui.button(RichText::new(i18n.content("core_main-menu-btn-tests")).size(30.0)).clicked() {
                 next_menu_state.set(MainMenuState::Tests);
             };
 
             if ui
-                .button(RichText::new(i18n.content("exit-game")).size(30.0))
+                .button(RichText::new(i18n.content("core_main-menu-btn-exit")).size(30.0))
                 .clicked()
             {
                 exit.send(AppExit);

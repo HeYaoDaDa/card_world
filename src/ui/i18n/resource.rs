@@ -37,7 +37,7 @@ impl I18n {
     }
 
     pub fn load(&mut self, fluent_resource_assets: &Assets<FluentResourceAsset>) {
-        debug!("reloading i18n");
+        debug!("loading i18n");
         self.fluent_bundles.clear();
         let assects = self
             .handles

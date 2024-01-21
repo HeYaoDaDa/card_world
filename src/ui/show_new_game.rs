@@ -11,16 +11,16 @@ pub fn show_new_game_system(
 ) {
     egui::CentralPanel::default().show(ctx.ctx_mut(), |ui| {
         ui.vertical_centered_justified(|ui| {
-            if ui.button(i18n.content("back")).clicked() {
+            if ui.button(i18n.content("core_cmn-btn-back")).clicked() {
                 next_menu_state.set(MainMenuState::Saves);
             }
-            ui.collapsing(i18n.content("mods"), |ui| {
+            ui.collapsing(i18n.content("core_new-game-btn-mods"), |ui| {
                 for modinfo in modinfo::get_all_modinfo_json() {
                     ui.label(i18n.content(&modinfo.name))
                         .on_hover_text(i18n.content(&modinfo.description));
                 }
             });
-            if ui.button(i18n.content("start")).clicked() {}
+            if ui.button(i18n.content("core_new-game-btn-start")).clicked() {}
         });
     });
 }

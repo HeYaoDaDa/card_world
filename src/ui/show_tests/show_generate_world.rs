@@ -41,7 +41,7 @@ pub fn show_generate_world_system(
 ) {
     egui::CentralPanel::default().show(ctx.ctx_mut(), |ui| {
         ui.vertical_centered_justified(|ui| {
-            if ui.button(i18n.content("back")).clicked() {
+            if ui.button(i18n.content("core_cmn-btn-back")).clicked() {
                 next_menu_state.set(TestsState::Tests);
             }
             ui.horizontal(|ui| {

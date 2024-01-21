@@ -27,13 +27,13 @@ pub fn show_options_system(
 
     egui::CentralPanel::default().show(ctx.ctx_mut(), |ui| {
         ui.vertical_centered_justified(|ui| {
-            if ui.button(i18n.content("back")).clicked() {
+            if ui.button(i18n.content("core_cmn-btn-back")).clicked() {
                 next_menu_state.set(MainMenuState::MainMenu);
             }
 
             let item_width = (ui.available_width() - ui.spacing().item_spacing.x) / 2.;
 
-            options_row(ui, item_width, i18n.content("language"), |ui| {
+            options_row(ui, item_width, i18n.content("core_options-label-language"), |ui| {
                 egui::ComboBox::from_id_source("language_combo_box")
                     .selected_text(language_map.get(&options.language[..]).unwrap().to_string())
                     .width(ui.available_width())
@@ -49,7 +49,7 @@ pub fn show_options_system(
                     });
             });
 
-            options_row(ui, item_width, i18n.content("v-sync"), |ui| {
+            options_row(ui, item_width, i18n.content("core_options-label-v-sync"), |ui| {
                 if ui.checkbox(&mut options.v_sync, "").clicked() {
                     window.present_mode = if options.v_sync {
                         PresentMode::AutoVsync
@@ -61,7 +61,7 @@ pub fn show_options_system(
                 }
             });
 
-            options_row(ui, item_width, i18n.content("show-fps"), |ui| {
+            options_row(ui, item_width, i18n.content("core_options-label-show-fps"), |ui| {
                 let old_show_fps = options.show_fps;
                 if ui.checkbox(&mut options.show_fps, "").clicked() {
                     options.show_fps = !old_show_fps;
