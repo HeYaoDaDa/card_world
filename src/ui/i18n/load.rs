@@ -1,3 +1,5 @@
+use crate::ui::load_task::LoadTask;
+
 use super::asset::FluentResourceAsset;
 use super::I18n;
 use bevy::time::Stopwatch;
@@ -28,7 +30,7 @@ pub fn spawn_load_i18n_task_system(
             )
         })
         .collect();
-    commands.spawn(LoadI18nTask(Stopwatch::new()));
+    commands.spawn((LoadI18nTask(Stopwatch::new()), LoadTask));
 }
 
 pub fn handle_load_i18n_task_system(
