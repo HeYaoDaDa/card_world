@@ -15,7 +15,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::game::load_task::LoadTask;
 
-#[derive(Serialize, Deserialize, Resource)]
+#[derive(Serialize, Deserialize, Resource, Clone)]
 pub struct Options {
     pub language: String,
     pub v_sync: bool,

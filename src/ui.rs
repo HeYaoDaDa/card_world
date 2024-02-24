@@ -31,7 +31,7 @@ impl Plugin for UiPlugin {
                 Update,
                 (
                     show_fps::show_fps_system,
-                    update_options::update_ui_options_system,
+                    update_options::update_ui_options_system.run_if(not(in_state(MainMenuState::Loading))),
                     load_font::handle_load_font_task_system
                         .run_if(in_state(MainMenuState::Loading)),
                     load_task::handle_load_finish_system.run_if(in_state(MainMenuState::Loading)),

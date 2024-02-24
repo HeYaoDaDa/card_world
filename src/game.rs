@@ -30,7 +30,7 @@ impl Plugin for GamePlugin {
                 Update,
                 (
                     options::save_changed_options,
-                    options::update_options_system,
+                    options::update_options_system.run_if(not(in_state(AppState::Loading))),
                     options::handle_load_options_task_system.run_if(in_state(AppState::Loading)),
                     modinfo::handle_load_modinfos_task_system.run_if(in_state(AppState::Loading)),
                     load_task::handle_load_finish_system.run_if(in_state(AppState::Loading)),
