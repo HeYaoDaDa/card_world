@@ -1,7 +1,9 @@
 use bevy::{input::common_conditions::input_toggle_active, prelude::*};
 use bevy_inspector_egui::{bevy_egui::EguiContext, egui, quick::WorldInspectorPlugin};
+use i18n::LoadI18nTask;
 
 mod i18n;
+mod load_font;
 mod show_fps;
 mod show_main_menu;
 mod show_new_game;
@@ -25,7 +27,8 @@ impl Plugin for UiPlugin {
                 Update,
                 (
                     show_fps::show_fps_system,
-                    update_options::update_options_system,
+                    update_options::update_ui_options_system,
+                    handle_ui_load_finish_system.run_if(in_state(MainMenuState::Loading)),
                     show_main_menu::show_main_menu_system.run_if(in_state(MainMenuState::MainMenu)),
                     show_options::show_options_system.run_if(in_state(MainMenuState::Options)),
                     show_saves::show_saves_system.run_if(in_state(MainMenuState::Saves)),
@@ -48,6 +51,16 @@ pub enum MainMenuState {
 
 fn spawn_camera(mut commands: Commands) {
     commands.spawn((Name::new("Camera2D"), Camera2dBundle::default()));
+}
+
+fn handle_ui_load_finish_system(
+    mut app_state: ResMut<NextState<MainMenuState>>,
+    load_i18n_task_query: Query<&LoadI18nTask>,
+) {
+    if load_i18n_task_query.is_empty() {
+        app_state.set(MainMenuState::MainMenu);
+        debug!("all ui load task finish");
+    }
 }
 
 fn setup_font(mut context_query: Query<&mut EguiContext>) {

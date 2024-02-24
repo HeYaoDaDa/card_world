@@ -1,3 +1,8 @@
+use bevy::{
+    prelude::*,
+    tasks::{self, IoTaskPool, Task},
+    time::Stopwatch,
+};
 use serde::Deserialize;
 use std::{
     fs::{self, File},
@@ -19,7 +24,44 @@ pub struct Modinfo {
     pub path: String,
 }
 
-pub fn get_all_modinfo_json() -> Vec<Modinfo> {
+#[derive(Component)]
+pub struct LoadModinfosTask {
+    pub task: Task<Vec<Modinfo>>,
+    pub stopwatch: Stopwatch,
+}
+
+#[derive(Resource, Default)]
+pub struct ModInfos(pub Vec<Modinfo>);
+
+pub fn spawn_load_modinfos_task_system(mut commands: Commands) {
+    debug!("load modinfos task start");
+    let task = IoTaskPool::get().spawn(async { get_all_modinfo_json() });
+    commands.spawn(LoadModinfosTask {
+        task,
+        stopwatch: Stopwatch::new(),
+    });
+}
+
+pub fn handle_load_modinfos_task_system(
+    mut commands: Commands,
+    time: Res<Time<Real>>,
+    mut modinfos: ResMut<ModInfos>,
+    mut task_query: Query<(Entity, &mut LoadModinfosTask)>,
+) {
+    if let Ok((task_entity, mut task)) = task_query.get_single_mut() {
+        task.stopwatch.tick(time.delta());
+        if task.task.is_finished() {
+            modinfos.0 = tasks::block_on(&mut task.task);
+            debug!(
+                "load modinfos task finish {}",
+                task.stopwatch.elapsed().as_secs_f64()
+            );
+            commands.entity(task_entity).despawn();
+        }
+    }
+}
+
+fn get_all_modinfo_json() -> Vec<Modinfo> {
     let paths = get_all_modinfo_path_by_path("assets/mods");
     let mut modinfos = Vec::new();
     for path in paths {

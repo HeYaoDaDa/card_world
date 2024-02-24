@@ -2,6 +2,7 @@ use super::MainMenuState;
 pub use asset::FluentResourceAsset;
 use asset::FluentResourceAssetLoader;
 use bevy::prelude::*;
+pub use load::LoadI18nTask;
 pub use resource::I18n;
 
 mod asset;
@@ -15,9 +16,10 @@ impl Plugin for I18nPlugin {
         app.init_resource::<I18n>()
             .init_asset::<FluentResourceAsset>()
             .init_asset_loader::<FluentResourceAssetLoader>()
+            .add_systems(PreStartup, load::spawn_load_i18n_task_system)
             .add_systems(
                 Update,
-                load::load_i18n_system.run_if(in_state(MainMenuState::Loading)),
+                load::handle_load_i18n_task_system.run_if(in_state(MainMenuState::Loading)),
             );
     }
 }
