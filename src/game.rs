@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use self::{
-    modinfo::LoadModinfosTask,
+    modinfo::{LoadModinfosTask, ModInfos},
     options::{LoadOptionsTask, Options, OptionsChangeEvent},
 };
 
@@ -16,7 +16,7 @@ impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.add_state::<AppState>()
             .init_resource::<Options>()
-            .init_resource::<modinfo::ModInfos>()
+            .init_resource::<ModInfos>()
             .add_event::<OptionsChangeEvent>()
             .add_systems(
                 PreStartup,
