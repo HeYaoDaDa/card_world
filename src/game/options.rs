@@ -13,6 +13,8 @@ use bevy::{
 };
 use serde::{Deserialize, Serialize};
 
+use crate::game::load_task::LoadTask;
+
 #[derive(Serialize, Deserialize, Resource)]
 pub struct Options {
     pub language: String,
@@ -69,10 +71,13 @@ pub fn spawn_load_options_task_system(mut commands: Commands) {
         }
         options
     });
-    commands.spawn(LoadOptionsTask {
-        task,
-        stopwatch: Stopwatch::new(),
-    });
+    commands.spawn((
+        LoadOptionsTask {
+            task,
+            stopwatch: Stopwatch::new(),
+        },
+        LoadTask,
+    ));
 }
 
 pub fn handle_load_options_task_system(

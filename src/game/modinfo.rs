@@ -10,6 +10,8 @@ use std::{
     path::PathBuf,
 };
 
+use crate::game::load_task::LoadTask;
+
 #[derive(Default, Deserialize)]
 pub struct Modinfo {
     pub id: String,
@@ -36,10 +38,13 @@ pub struct ModInfos(pub Vec<Modinfo>);
 pub fn spawn_load_modinfos_task_system(mut commands: Commands) {
     debug!("load modinfos task start");
     let task = IoTaskPool::get().spawn(async { get_all_modinfo_json() });
-    commands.spawn(LoadModinfosTask {
-        task,
-        stopwatch: Stopwatch::new(),
-    });
+    commands.spawn((
+        LoadModinfosTask {
+            task,
+            stopwatch: Stopwatch::new(),
+        },
+        LoadTask,
+    ));
 }
 
 pub fn handle_load_modinfos_task_system(

@@ -1,11 +1,12 @@
 use bevy::prelude::*;
 
 use self::{
-    modinfo::{LoadModinfosTask, ModInfos},
-    options::{LoadOptionsTask, Options, OptionsChangeEvent},
+    modinfo::ModInfos,
+    options::{Options, OptionsChangeEvent},
 };
 
 pub mod generate_world;
+mod load_task;
 pub mod modinfo;
 pub mod options;
 pub mod world;
@@ -32,7 +33,7 @@ impl Plugin for GamePlugin {
                     options::update_options_system,
                     options::handle_load_options_task_system.run_if(in_state(AppState::Loading)),
                     modinfo::handle_load_modinfos_task_system.run_if(in_state(AppState::Loading)),
-                    handle_load_finish_system.run_if(in_state(AppState::Loading)),
+                    load_task::handle_load_finish_system.run_if(in_state(AppState::Loading)),
                 ),
             );
     }
@@ -43,15 +44,4 @@ pub enum AppState {
     #[default]
     Loading,
     MainMenu,
-}
-
-fn handle_load_finish_system(
-    mut app_state: ResMut<NextState<AppState>>,
-    load_modinfos_task_query: Query<&LoadModinfosTask>,
-    load_options_task_query: Query<&LoadOptionsTask>,
-) {
-    if load_modinfos_task_query.is_empty() && load_options_task_query.is_empty() {
-        app_state.set(AppState::MainMenu);
-        debug!("all load task finish");
-    }
 }
