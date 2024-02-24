@@ -10,7 +10,7 @@ pub struct ShowTestPlugin;
 
 impl Plugin for ShowTestPlugin {
     fn build(&self, app: &mut App) {
-        app.add_state::<TestsState>().add_systems(
+        app.init_state::<TestsState>().add_systems(
             Update,
             (
                 show_tests_system

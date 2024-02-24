@@ -15,7 +15,7 @@ pub struct GamePlugin;
 
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
-        app.add_state::<AppState>()
+        app.init_state::<AppState>()
             .init_resource::<Options>()
             .init_resource::<ModInfos>()
             .add_event::<OptionsChangeEvent>()

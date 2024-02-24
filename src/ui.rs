@@ -16,9 +16,9 @@ pub struct UiPlugin;
 
 impl Plugin for UiPlugin {
     fn build(&self, app: &mut App) {
-        app.add_state::<MainMenuState>()
+        app.init_state::<MainMenuState>()
             .add_plugins((
-                WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Grave)),
+                WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Backquote)),
                 show_tests::ShowTestPlugin,
                 i18n::I18nPlugin,
             ))

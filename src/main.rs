@@ -17,6 +17,7 @@ fn main() {
                 .set(LogPlugin {
                     level: bevy::log::Level::TRACE,
                     filter: "info,wgpu=error,naga=warn,card_world=trace".into(),
+                    ..default()
                 }),
             ui::UiPlugin,
             game::GamePlugin,
