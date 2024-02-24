@@ -19,7 +19,7 @@ impl Plugin for GamePlugin {
             .init_resource::<ModInfos>()
             .add_event::<OptionsChangeEvent>()
             .add_systems(
-                PreStartup,
+                OnEnter(AppState::Loading),
                 (
                     options::spawn_load_options_task_system,
                     modinfo::spawn_load_modinfos_task_system,
