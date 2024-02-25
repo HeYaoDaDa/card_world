@@ -1,4 +1,4 @@
-use crate::game::options::Options;
+use crate::Options;
 use crate::ui::i18n::I18n;
 use bevy::prelude::*;
 use bevy_inspector_egui::bevy_egui::egui::*;

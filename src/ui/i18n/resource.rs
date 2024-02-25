@@ -1,3 +1,5 @@
+use crate::Options;
+
 use super::asset::FluentResourceAsset;
 use bevy::prelude::*;
 use fluent::{bundle::FluentBundle, FluentResource};
@@ -15,12 +17,22 @@ pub struct I18n {
     pub handles: Vec<Handle<FluentResourceAsset>>,
 }
 
-impl Default for I18n {
-    fn default() -> Self {
-        Self {
-            language: "en".parse().unwrap(),
-            fluent_bundles: Default::default(),
-            handles: Default::default(),
+impl FromWorld for I18n {
+    fn from_world(world: &mut World) -> Self {
+        let options = world.get_resource::<Options>();
+        if let Some(options) = options {
+            I18n {
+                language: options.language.parse().unwrap(),
+                fluent_bundles: default(),
+                handles: default(),
+            }
+        } else {
+            warn!("i18n use default en init resource");
+            I18n {
+                language: "en".parse().unwrap(),
+                fluent_bundles: default(),
+                handles: default(),
+            }
         }
     }
 }
